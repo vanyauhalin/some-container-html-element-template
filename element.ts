@@ -30,7 +30,7 @@ export class SomeContainer extends HTMLElement {
     }
 
     if (n === "onsomecontainerchange") {
-      this[n] = evalEvent(v)
+      this[n] = resolveEventListener(v)
       return
     }
   }
@@ -261,7 +261,7 @@ export interface GlobalSomeContainerChangedHandler {
 // Utilities
 //
 
-function evalEvent<L>(v: string | null): L | null {
+function resolveEventListener<L>(v: string | null): L | null {
   if (v === null) {
     return null
   }
