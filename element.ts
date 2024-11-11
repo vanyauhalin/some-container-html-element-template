@@ -6,7 +6,7 @@ export class SomeContainer extends HTMLElement {
   static get observedAttributes(): SomeContainerAttributeName[] {
     return [
       ...this.observedProperties,
-      ...this.observedEvents,
+      ...this.observedEventListeners,
     ]
   }
 
@@ -16,7 +16,7 @@ export class SomeContainer extends HTMLElement {
     ]
   }
 
-  static get observedEvents(): SomeContainerEventListenerName[] {
+  static get observedEventListeners(): SomeContainerEventListenerName[] {
     return [
       "onsomecontainerchange",
       "onsomecontainerchanged",
@@ -59,7 +59,7 @@ export class SomeContainer extends HTMLElement {
   }
 
   //
-  // Events
+  // Event Listeners
   //
 
   #onsomecontainerchange: SomeContainerChangeEventListener | null = null
