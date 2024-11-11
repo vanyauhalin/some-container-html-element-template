@@ -4,10 +4,31 @@ export class SomeContainer extends HTMLElement {
   }
 
   static get observedAttributes(): SomeContainerAttributeName[] {
-    return []
+    return [
+      ...this.observedProperties,
+      ...this.observedEvents,
+    ]
+  }
+
+  static get observedProperties(): SomeContainerPropertyName[] {
+    return [
+      "property",
+    ]
+  }
+
+  static get observedEvents(): SomeContainerEventListenerName[] {
+    return [
+      "onsomecontainerchange",
+      "onsomecontainerchanged",
+    ]
   }
 
   attributeChangedCallback(n: SomeContainerAttributeName, _: string, v: string | null): void {
+    if (n === "property") {
+      this[n] = v
+      return
+    }
+
     if (n === "onsomecontainerchange") {
       this[n] = evalEvent(v)
       return
@@ -33,7 +54,7 @@ export class SomeContainer extends HTMLElement {
 
   #defaultProperty = ""
 
-  get defaultAttribute(): string {
+  get defaultProperty(): string {
     return this.#defaultProperty
   }
 
@@ -164,7 +185,7 @@ export type SomeContainerPropertyName =
   keyof SomeContainerPropertyMap
 
 export interface SomeContainerPropertyMap {
-  "some-property": "some-value"
+  "property": "value"
 }
 
 export type SomeContainerEventListener =
