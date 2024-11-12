@@ -15,25 +15,25 @@ declare global {
   }
 
   interface HTMLElementTagNameMap {
-    "some-container": SomeContainer
+    [SomeContainer.tagName]: SomeContainer
   }
 
   namespace preact {
     namespace JSX {
       interface IntrinsicElements {
-        "some-container": HTMLAttributes<SomeContainer> & Partial<SomeContainerAttributeMap>
+        [SomeContainer.tagName]: HTMLAttributes<SomeContainer> & Partial<SomeContainerAttributeMap>
       }
     }
   }
 
   interface GlobalEventHandlersEventMap {
-    somecontainerchange: SomeContainerChangeEvent
-    somecontainerchanged: SomeContainerChangedEvent
+    [SomeContainerChangeEvent.type]: SomeContainerChangeEvent
+    [SomeContainerChangedEvent.type]: SomeContainerChangedEvent
   }
 
   interface GlobalEventHandlers {
-    onsomecontainerchange: GlobalSomeContainerChangeEventHandler | null
-    onsomecontainerchanged: GlobalSomeContainerChangedEventHandler | null
+    [SomeContainerChangeEvent.handlerName]: GlobalSomeContainerChangeEventHandler | null
+    [SomeContainerChangedEvent.handlerName]: GlobalSomeContainerChangedEventHandler | null
   }
 }
 

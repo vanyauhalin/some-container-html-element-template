@@ -3,6 +3,10 @@ export class SomeContainer extends HTMLElement {
     return "some-container"
   }
 
+  //
+  // Attributes
+  //
+
   static get observedAttributes(): SomeContainerAttributeName[] {
     return [
       ...this.observedProperties,
@@ -188,7 +192,7 @@ export type SomeContainerPropertyName =
   keyof SomeContainerPropertyMap
 
 export interface SomeContainerPropertyMap {
-  "property": "value"
+  property: "value"
 }
 
 export type SomeContainerEventListener =
@@ -198,19 +202,8 @@ export type SomeContainerEventListenerName =
   keyof SomeContainerEventListenerMap
 
 export interface SomeContainerEventListenerMap {
-  "onsomecontainerchange": SomeContainerChangeEventListener
-  "onsomecontainerchanged": SomeContainerChangedEventListener
-}
-
-export type SomeContainerEvent =
-  SomeContainerEventMap[SomeContainerEventType]
-
-export type SomeContainerEventType =
-  keyof SomeContainerEventMap
-
-export interface SomeContainerEventMap {
-  "somecontainerchange": SomeContainerChangeEvent
-  "somecontainerchanged": SomeContainerChangedEvent
+  [SomeContainerChangeEvent.handlerName]: SomeContainerChangeEventListener
+  [SomeContainerChangedEvent.handlerName]: SomeContainerChangedEventListener
 }
 
 export type GlobalSomeContainerEventHandler =
@@ -220,15 +213,38 @@ export type GlobalSomeContainerEventHandlerName =
   keyof GlobalSomeContainerEventHandlerMap
 
 export interface GlobalSomeContainerEventHandlerMap {
-  "onsomecontainerchange": GlobalSomeContainerChangeEventHandler
-  "onsomecontainerchanged": GlobalSomeContainerChangedEventHandler
+  [SomeContainerChangeEvent.handlerName]: GlobalSomeContainerChangeEventHandler
+  [SomeContainerChangedEvent.handlerName]: GlobalSomeContainerChangedEventHandler
+}
+
+export type SomeContainerEvent =
+  SomeContainerEventMap[SomeContainerEventType]
+
+export type SomeContainerEventType =
+  keyof SomeContainerEventMap
+
+export interface SomeContainerEventMap {
+  [SomeContainerChangeEvent.type]: SomeContainerChangeEvent
+  [SomeContainerChangedEvent.type]: SomeContainerChangedEvent
 }
 
 //
 // Events
 //
 
+export interface SomeContainerChangeEventListener extends EventListener {
+  (this: SomeContainer, e: SomeContainerChangeEvent): void
+}
+
+export interface GlobalSomeContainerChangeEventHandler {
+  (this: GlobalEventHandlers, e: SomeContainerChangeEvent): void
+}
+
 export class SomeContainerChangeEvent extends Event {
+  static get handlerName(): `on${typeof SomeContainerChangeEvent.type}` {
+    return `on${this.type}`
+  }
+
   static get type(): "somecontainerchange" {
     return "somecontainerchange"
   }
@@ -240,15 +256,19 @@ export class SomeContainerChangeEvent extends Event {
   }
 }
 
-export interface SomeContainerChangeEventListener extends EventListener {
-  (this: SomeContainer, e: SomeContainerChangeEvent): void
+export interface SomeContainerChangedEventListener extends EventListener {
+  (this: SomeContainer, e: SomeContainerChangedEvent): void
 }
 
-export interface GlobalSomeContainerChangeEventHandler {
-  (this: GlobalEventHandlers, e: SomeContainerChangeEvent): void
+export interface GlobalSomeContainerChangedEventHandler {
+  (this: GlobalEventHandlers, e: SomeContainerChangedEvent): void
 }
 
 export class SomeContainerChangedEvent extends Event {
+  static get handlerName(): `on${typeof SomeContainerChangedEvent.type}` {
+    return `on${this.type}`
+  }
+
   static get type(): "somecontainerchanged" {
     return "somecontainerchanged"
   }
@@ -258,14 +278,6 @@ export class SomeContainerChangedEvent extends Event {
   constructor(d: EventInit) {
     super(SomeContainerChangedEvent.type, d)
   }
-}
-
-export interface SomeContainerChangedEventListener extends EventListener {
-  (this: SomeContainer, e: SomeContainerChangedEvent): void
-}
-
-export interface GlobalSomeContainerChangedEventHandler {
-  (this: GlobalEventHandlers, e: SomeContainerChangedEvent): void
 }
 
 //
