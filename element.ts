@@ -169,6 +169,9 @@ export class SomeContainer extends HTMLElement {
 // Types
 //
 
+export type SomeContainerAttribute =
+  SomeContainerAttributeMap[SomeContainerAttributeName]
+
 export type SomeContainerAttributeName =
   keyof SomeContainerAttributeMap
 
@@ -200,18 +203,26 @@ export interface SomeContainerEventListenerMap {
 }
 
 export type SomeContainerEvent =
-  GlobalEventHandlersEventMap[SomeContainerEventType]
+  SomeContainerEventMap[SomeContainerEventType]
 
-export type SomeContainerEventType = {
-  [K in keyof GlobalEventHandlersEventMap]: K extends `somecontainer${string}` ? K : never
-}[keyof GlobalEventHandlersEventMap]
+export type SomeContainerEventType =
+  keyof SomeContainerEventMap
 
-export type SomeContainerEventHandler =
-  Exclude<GlobalEventHandlers[SomeContainerEventHandlerName], null>
+export interface SomeContainerEventMap {
+  "somecontainerchange": SomeContainerChangeEvent
+  "somecontainerchanged": SomeContainerChangedEvent
+}
 
-export type SomeContainerEventHandlerName = Exclude<{
-  [K in keyof GlobalEventHandlers]: K extends `onsomecontainer${string}` ? K : never
-}[keyof GlobalEventHandlers], undefined>
+export type GlobalSomeContainerEventHandler =
+  GlobalSomeContainerEventHandlerMap[GlobalSomeContainerEventHandlerName]
+
+export type GlobalSomeContainerEventHandlerName =
+  keyof GlobalSomeContainerEventHandlerMap
+
+export interface GlobalSomeContainerEventHandlerMap {
+  "onsomecontainerchange": GlobalSomeContainerChangeEventHandler
+  "onsomecontainerchanged": GlobalSomeContainerChangedEventHandler
+}
 
 //
 // Events
@@ -233,7 +244,7 @@ export interface SomeContainerChangeEventListener extends EventListener {
   (this: SomeContainer, e: SomeContainerChangeEvent): void
 }
 
-export interface GlobalSomeContainerChangeHandler {
+export interface GlobalSomeContainerChangeEventHandler {
   (this: GlobalEventHandlers, e: SomeContainerChangeEvent): void
 }
 
@@ -253,7 +264,7 @@ export interface SomeContainerChangedEventListener extends EventListener {
   (this: SomeContainer, e: SomeContainerChangedEvent): void
 }
 
-export interface GlobalSomeContainerChangedHandler {
+export interface GlobalSomeContainerChangedEventHandler {
   (this: GlobalEventHandlers, e: SomeContainerChangedEvent): void
 }
 

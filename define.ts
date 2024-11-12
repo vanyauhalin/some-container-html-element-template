@@ -1,6 +1,6 @@
 import {
-  type GlobalSomeContainerChangedHandler,
-  type GlobalSomeContainerChangeHandler,
+  type GlobalSomeContainerChangedEventHandler,
+  type GlobalSomeContainerChangeEventHandler,
   SomeContainer,
   type SomeContainerAttributeMap,
   SomeContainerChangedEvent,
@@ -32,8 +32,8 @@ declare global {
   }
 
   interface GlobalEventHandlers {
-    onsomecontainerchange: GlobalSomeContainerChangeHandler | null
-    onsomecontainerchanged: GlobalSomeContainerChangedHandler | null
+    onsomecontainerchange: GlobalSomeContainerChangeEventHandler | null
+    onsomecontainerchanged: GlobalSomeContainerChangedEventHandler | null
   }
 }
 
