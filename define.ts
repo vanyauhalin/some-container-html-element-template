@@ -8,6 +8,22 @@ import {
 } from "./element.ts"
 
 declare global {
+  namespace preact {
+    namespace JSX {
+      interface IntrinsicElements {
+        [SomeContainer.tagName]: HTMLAttributes<SomeContainer> & Partial<SomeContainerAttributeMap>
+      }
+    }
+  }
+
+  namespace react {
+    namespace JSX {
+      interface IntrinsicElements {
+        [SomeContainer.tagName]: React.DetailedHTMLProps<React.HTMLAttributes<SomeContainer>, SomeContainer> & Partial<SomeContainerAttributeMap>
+      }
+    }
+  }
+
   interface Window {
     SomeContainer: typeof SomeContainer
     SomeContainerChangeEvent: typeof SomeContainerChangeEvent
@@ -16,14 +32,6 @@ declare global {
 
   interface HTMLElementTagNameMap {
     [SomeContainer.tagName]: SomeContainer
-  }
-
-  namespace preact {
-    namespace JSX {
-      interface IntrinsicElements {
-        [SomeContainer.tagName]: HTMLAttributes<SomeContainer> & Partial<SomeContainerAttributeMap>
-      }
-    }
   }
 
   interface GlobalEventHandlersEventMap {
