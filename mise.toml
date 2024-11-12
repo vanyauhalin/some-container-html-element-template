@@ -1,0 +1,3 @@
+[tools]
+node = "prefix:23"
+pnpm = "prefix:9"
