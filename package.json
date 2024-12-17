@@ -15,6 +15,9 @@
     "@types/react": "18.3.12",
     "preact": "10.24.3"
   },
+  "dependencies": {
+    "@types/web": "0.0.187"
+  },
   "devDependencies": {
     "@types/react": "18.3.12",
     "@web/dev-server": "0.4.6",
