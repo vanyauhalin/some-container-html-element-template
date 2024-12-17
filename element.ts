@@ -1,3 +1,22 @@
+import {
+  SomeContainerChangedEvent,
+  type SomeContainerChangedEventListener,
+  SomeContainerChangeEvent,
+  type SomeContainerChangeEventListener,
+} from "./events.ts"
+import {
+  type SomeContainerAttributeName,
+  type SomeContainerPropertyName,
+  type SomeContainerEventListenerName,
+} from "./types.ts"
+import {
+  isEnterKey,
+  isKeydownEvent,
+  isWithin,
+  queryElement,
+  resolveEventListener,
+} from "./utils.ts"
+
 export class SomeContainer extends HTMLElement {
   static get tagName(): "some-container" {
     return "some-container"
@@ -22,8 +41,8 @@ export class SomeContainer extends HTMLElement {
 
   static get observedEventListeners(): SomeContainerEventListenerName[] {
     return [
-      "onsomecontainerchange",
-      "onsomecontainerchanged",
+      SomeContainerChangedEvent.handlerName,
+      SomeContainerChangeEvent.handlerName,
     ]
   }
 
@@ -33,7 +52,7 @@ export class SomeContainer extends HTMLElement {
       return
     }
 
-    if (n === "onsomecontainerchange") {
+    if (n === SomeContainerChangeEvent.handlerName) {
       this[n] = resolveEventListener(v)
       return
     }
@@ -167,142 +186,4 @@ export class SomeContainer extends HTMLElement {
       return
     }
   }
-}
-
-//
-// Types
-//
-
-export type SomeContainerAttribute =
-  SomeContainerAttributeMap[SomeContainerAttributeName]
-
-export type SomeContainerAttributeName =
-  keyof SomeContainerAttributeMap
-
-export type SomeContainerAttributeMap = {
-  [K in SomeContainerPropertyName]: string
-} & {
-  [K in SomeContainerEventListenerName]: string
-}
-
-export type SomeContainerProperty =
-  SomeContainerPropertyMap[SomeContainerPropertyName]
-
-export type SomeContainerPropertyName =
-  keyof SomeContainerPropertyMap
-
-export interface SomeContainerPropertyMap {
-  property: "value"
-}
-
-export type SomeContainerEventListener =
-  SomeContainerEventListenerMap[SomeContainerEventListenerName]
-
-export type SomeContainerEventListenerName =
-  keyof SomeContainerEventListenerMap
-
-export interface SomeContainerEventListenerMap {
-  [SomeContainerChangeEvent.handlerName]: SomeContainerChangeEventListener
-  [SomeContainerChangedEvent.handlerName]: SomeContainerChangedEventListener
-}
-
-export type GlobalSomeContainerEventHandler =
-  GlobalSomeContainerEventHandlerMap[GlobalSomeContainerEventHandlerName]
-
-export type GlobalSomeContainerEventHandlerName =
-  keyof GlobalSomeContainerEventHandlerMap
-
-export interface GlobalSomeContainerEventHandlerMap {
-  [SomeContainerChangeEvent.handlerName]: GlobalSomeContainerChangeEventHandler
-  [SomeContainerChangedEvent.handlerName]: GlobalSomeContainerChangedEventHandler
-}
-
-export type SomeContainerEvent =
-  SomeContainerEventMap[SomeContainerEventType]
-
-export type SomeContainerEventType =
-  keyof SomeContainerEventMap
-
-export interface SomeContainerEventMap {
-  [SomeContainerChangeEvent.type]: SomeContainerChangeEvent
-  [SomeContainerChangedEvent.type]: SomeContainerChangedEvent
-}
-
-//
-// Events
-//
-
-export interface SomeContainerChangeEventListener extends EventListener {
-  (this: SomeContainer, e: SomeContainerChangeEvent): void
-}
-
-export interface GlobalSomeContainerChangeEventHandler {
-  (this: GlobalEventHandlers, e: SomeContainerChangeEvent): void
-}
-
-export class SomeContainerChangeEvent extends Event {
-  static get handlerName(): `on${typeof SomeContainerChangeEvent.type}` {
-    return `on${this.type}`
-  }
-
-  static get type(): "somecontainerchange" {
-    return "somecontainerchange"
-  }
-
-  type = SomeContainerChangeEvent.type
-
-  constructor(d: EventInit) {
-    super(SomeContainerChangeEvent.type, d)
-  }
-}
-
-export interface SomeContainerChangedEventListener extends EventListener {
-  (this: SomeContainer, e: SomeContainerChangedEvent): void
-}
-
-export interface GlobalSomeContainerChangedEventHandler {
-  (this: GlobalEventHandlers, e: SomeContainerChangedEvent): void
-}
-
-export class SomeContainerChangedEvent extends Event {
-  static get handlerName(): `on${typeof SomeContainerChangedEvent.type}` {
-    return `on${this.type}`
-  }
-
-  static get type(): "somecontainerchanged" {
-    return "somecontainerchanged"
-  }
-
-  type = SomeContainerChangedEvent.type
-
-  constructor(d: EventInit) {
-    super(SomeContainerChangedEvent.type, d)
-  }
-}
-
-//
-// Utilities
-//
-
-function resolveEventListener<L>(v: string | null): L | null {
-  if (v === null) {
-    return null
-  }
-  return new Function("event", v) as L
-}
-
-function queryElement(n: ParentNode): HTMLElement | null {
-  return n.querySelector("")
-}
-
-function isWithin(c: SomeContainer, e: Element): boolean {
-  return e.closest(c.tagName) === c
-}
-
-function isEnterKey(k: unknown): k is "Enter" {
-  return typeof k === "string" && k === "Enter"
-}
-
-function isKeydownEvent(e: unknown): e is KeyboardEvent {
-  return e instanceof Event && e.type === "keydown"
 }
