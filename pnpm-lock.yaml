@@ -21,9 +21,6 @@ importers:
       '@web/dev-server-esbuild':
         specifier: 1.0.3
         version: 1.0.3
-      esbuild:
-        specifier: 0.24.0
-        version: 0.24.0
       preact:
         specifier: 10.24.3
         version: 10.24.3
