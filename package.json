@@ -2,12 +2,6 @@
   "name": "@vanyauhalin/some-container-html-element-template",
   "version": "0.0.0",
   "type": "module",
-  "main": "main.js",
-  "exports": {
-    ".": "./main.js",
-    "./define.js": "./define.js",
-    "./element.js": "./element.js"
-  },
   "scripts": {
     "serve": "tsx node_modules/@web/dev-server/dist/bin.js --config wds.config.ts .",
     "test-browser": "tsx node_modules/@web/test-runner/dist/bin.js --config wtr.config.ts",
