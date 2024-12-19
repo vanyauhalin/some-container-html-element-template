@@ -12,8 +12,8 @@
     "serve": "tsx node_modules/@web/dev-server/dist/bin.js --config wds.config.ts ."
   },
   "peerDependencies": {
-    "@types/react": "18.3.12",
-    "preact": "10.24.3"
+    "@types/react": "^18.0.0",
+    "preact": "^10.0.0"
   },
   "dependencies": {
     "@types/web": "0.0.187"
