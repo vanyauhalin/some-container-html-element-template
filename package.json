@@ -10,7 +10,9 @@
   },
   "scripts": {
     "serve": "tsx node_modules/@web/dev-server/dist/bin.js --config wds.config.ts .",
-    "test": "tsx node_modules/@web/test-runner/dist/bin.js --config wtr.config.ts"
+    "test-browser": "tsx node_modules/@web/test-runner/dist/bin.js --config wtr.config.ts",
+    "test-types": "tsc --noEmit",
+    "test": "pnpm run test-types && pnpm run test-browser"
   },
   "peerDependencies": {
     "@types/react": "^18.0.0",
@@ -27,6 +29,6 @@
     "@web/test-runner-playwright": "0.11.0",
     "preact": "10.24.3",
     "tsx": "4.19.2",
-    "typescript": "5.6.3"
+    "typescript": "5.7.2"
   }
 }
